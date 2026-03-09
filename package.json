@@ -1,0 +1,29 @@
+{
+  "name": "health-matters-kpi-dashboard",
+  "version": "1.0.0",
+  "description": "Local full-stack KPI dashboard for a referral management system.",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "test": "jest --runInBand"
+  },
+  "keywords": [
+    "kpi",
+    "dashboard",
+    "express",
+    "sqlite"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.1.1"
+  },
+  "engines": {
+    "node": ">=22.5.0"
+  }
+}

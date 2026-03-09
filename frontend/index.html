@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Health Matters KPI Dashboard</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="header">
+        <h1>Health Matters KPI Dashboard</h1>
+        <p class="subtitle">Referral analytics module with interactive controls</p>
+      </header>
+
+      <section class="toolbar card">
+        <button id="refresh-btn" type="button">Refresh Dashboard</button>
+        <button id="load-details-btn" type="button">Load Referral Details</button>
+        <button id="export-csv-btn" type="button">Download MI CSV</button>
+        <button id="toggle-sort-btn" type="button">Sort Outcomes: Asc</button>
+      </section>
+
+      <section class="cards">
+        <article class="card metric-card">
+          <h2>Total Referrals</h2>
+          <p id="total-referrals">Loading...</p>
+        </article>
+
+        <article class="card metric-card">
+          <h2>Average SLA (Days)</h2>
+          <p id="average-sla">Loading...</p>
+        </article>
+
+        <article class="card metric-card">
+          <h2>Active Outcome Filter</h2>
+          <p id="active-filter">All</p>
+        </article>
+      </section>
+
+      <section class="chart-grid">
+        <article class="card">
+          <h2>Outcomes Bar Chart</h2>
+          <canvas id="outcomes-bar-chart" aria-label="Outcome bar chart"></canvas>
+        </article>
+
+        <article class="card">
+          <h2>Outcomes Donut Chart</h2>
+          <canvas id="outcomes-donut-chart" aria-label="Outcome donut chart"></canvas>
+          <div id="chart-legend" class="chart-legend"></div>
+        </article>
+      </section>
+
+      <section class="card">
+        <div class="section-heading">
+          <h2>Outcome Statistics</h2>
+          <button id="clear-filter-btn" type="button">Clear Filter</button>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Outcome Status</th>
+              <th>Count</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="outcomes-table-body"></tbody>
+        </table>
+      </section>
+
+      <section class="card" id="details-section">
+        <div class="section-heading">
+          <h2>Referral Details</h2>
+          <span id="details-count">0 rows</span>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Referral ID</th>
+              <th>Submitted</th>
+              <th>Status</th>
+              <th>Appointment</th>
+              <th>Outcome</th>
+              <th>SLA (Days)</th>
+            </tr>
+          </thead>
+          <tbody id="details-table-body"></tbody>
+        </table>
+      </section>
+
+      <p id="status-message" class="status">Ready.</p>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
