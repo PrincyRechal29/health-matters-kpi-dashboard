@@ -526,6 +526,98 @@
     .badge-appointed  { background: #dbeafe; color: #1e40af; }
     .badge-cancelled  { background: #fee2e2; color: #991b1b; }
 
+
+    /* ============================================================
+       STEP D — RESPONSIVENESS AT DIFFERENT SCREEN WIDTHS
+       Three breakpoints tested:
+         - Desktop  1280px+  : 6 KPI cols, 2-col charts, sidebar visible
+         - Tablet   768-1280 : 3 KPI cols, stacked charts, sidebar visible
+         - Mobile   <768px   : 2 KPI cols, all stacked, sidebar hidden
+       ============================================================ */
+
+    /* ── Tablet (max 1280px) ───────────────────────────── */
+    @media (max-width: 1280px) {
+      #kpi-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      #charts-row-1 {
+        grid-template-columns: 1fr;
+      }
+      #charts-row-2 {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* ── Tablet narrow (max 1024px) ────────────────────── */
+    @media (max-width: 1024px) {
+      :root {
+        --sidebar-width: 180px;
+      }
+      #charts-row-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ── Mobile (max 768px) ────────────────────────────── */
+    @media (max-width: 768px) {
+      /* Sidebar hides off screen — toggled by JS */
+      #sidebar {
+        transform: translateX(-220px);
+        width: 220px;
+        transition: transform var(--transition);
+      }
+      #sidebar.open {
+        transform: translateX(0);
+        box-shadow: var(--shadow-lg);
+      }
+
+      /* Main takes full width */
+      #main {
+        margin-left: 0;
+      }
+
+      /* Show hamburger button */
+      #hamburger-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Hide dropdowns on mobile to save space */
+      #topbar-controls select {
+        display: none;
+      }
+
+      /* KPI cards: 2 per row */
+      #kpi-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      /* Charts all stack */
+      #charts-row-1,
+      #charts-row-2 {
+        grid-template-columns: 1fr;
+      }
+
+      /* Tighten padding */
+      #content {
+        padding: var(--space-md);
+      }
+    }
+
+    /* ── Small mobile (max 480px) ──────────────────────── */
+    @media (max-width: 480px) {
+      #kpi-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .kpi-value {
+        font-size: var(--font-size-xl);
+      }
+      #topbar {
+        padding: 0 var(--space-md);
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -630,6 +722,29 @@
       </section>
     </div>
   </main>
+
+
+  <script>
+    // Hamburger toggle for mobile sidebar
+    document.getElementById('hamburger-btn').addEventListener('click', function () {
+      document.getElementById('sidebar').classList.toggle('open');
+    });
+
+    // Close sidebar when clicking outside
+    document.addEventListener('click', function (e) {
+      const sidebar = document.getElementById('sidebar');
+      const hamburger = document.getElementById('hamburger-btn');
+      if (sidebar.classList.contains('open') &&
+          !sidebar.contains(e.target) &&
+          e.target !== hamburger) {
+        sidebar.classList.remove('open');
+      }
+    });
+
+    // Show last updated time
+    document.getElementById('last-updated').textContent =
+      'Last updated: ' + new Date().toLocaleString('en-GB');
+  </script>
 
 </body>
 </html>
