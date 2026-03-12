@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Health Matters KPI Dashboard</title>
+</head>
+<body>
+
+  <!-- ── SIDEBAR ───────────────────────────────────────── -->
+  <aside id="sidebar">
+
+    <div id="sidebar-logo">
+      <h1>Health Matters</h1>
+      <span>Analytics</span>
+    </div>
+
+    <nav id="sidebar-nav">
+      <p class="nav-section-label">Analytics</p>
+      <a href="#" class="nav-item active">Dashboard</a>
+      <a href="#" class="nav-item">Referrals</a>
+      <a href="#" class="nav-item">Appointments</a>
+      <a href="#" class="nav-item">Services</a>
+
+      <p class="nav-section-label">Management</p>
+      <a href="#" class="nav-item">Reports</a>
+      <a href="#" class="nav-item">Admin</a>
+      <a href="#" class="nav-item">Settings</a>
+    </nav>
+
+    <div id="sidebar-footer">
+      <div id="user-profile">
+        <div id="user-avatar">AL</div>
+        <div id="user-info">
+          <span id="user-name">Agile Lancs</span>
+          <span id="user-role">Manager View</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ── MAIN AREA ─────────────────────────────────────── -->
+  <main id="main">
+
+    <!-- TOPBAR -->
+    <header id="topbar">
+
+      <button id="hamburger-btn">&#9776;</button>
+
+      <div id="topbar-title">
+        <h2>KPI Overview</h2>
+        <p id="last-updated">Last updated: --</p>
+      </div>
+
+      <div id="topbar-controls">
+        <select id="date-filter">
+          <option value="all">All time</option>
+          <option value="30">Last 30 days</option>
+          <option value="90">Last 90 days</option>
+          <option value="180">Last 6 months</option>
+        </select>
+
+        <select id="team-filter">
+          <option value="all">All teams</option>
+        </select>
+
+        <select id="service-filter">
+          <option value="all">All services</option>
+        </select>
+
+        <select id="status-filter">
+          <option value="all">All statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Triaged">Triaged</option>
+          <option value="Appointed">Appointed</option>
+          <option value="Completed">Completed</option>
+          <option value="Cancelled">Cancelled</option>
+        </select>
+
+        <button id="refresh-btn">Refresh</button>
+        <button id="export-btn">Export CSV</button>
+      </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <div id="content">
+
+      <!-- Status banners -->
+      <div id="banner-loading" class="banner">Loading data...</div>
+      <div id="banner-error"   class="banner">Error connecting to database.</div>
+      <div id="banner-empty"   class="banner">No records found for selected filters.</div>
+
+      <!-- KPI CARDS -->
+      <section id="kpi-section">
+        <h3 class="section-label">Key Performance Indicators</h3>
+        <div id="kpi-grid">
+          <article class="kpi-card">
+            <p class="kpi-label">Total Referrals</p>
+            <p class="kpi-value" id="kpi-total">--</p>
+            <p class="kpi-sub">All time</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Open Referrals</p>
+            <p class="kpi-value" id="kpi-open">--</p>
+            <p class="kpi-sub">Active cases</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Completion Rate</p>
+            <p class="kpi-value" id="kpi-completion">--</p>
+            <p class="kpi-sub">Completed referrals</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">No-Show Rate</p>
+            <p class="kpi-value" id="kpi-noshow">--</p>
+            <p class="kpi-sub">Did not attend</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Avg Days to Appt</p>
+            <p class="kpi-value" id="kpi-avgdays">--</p>
+            <p class="kpi-sub">Open to appointment</p>
+          </article>
+          <article class="kpi-card">
+            <p class="kpi-label">Active Services</p>
+            <p class="kpi-value" id="kpi-services">--</p>
+            <p class="kpi-sub">With appointments</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- CHARTS ROW 1 -->
+      <section id="charts-row-1">
+        <article class="chart-card" id="chart-line-wrap">
+          <h3 class="chart-title">Referrals Over Time</h3>
+          <canvas id="chart-referrals-line"></canvas>
+        </article>
+        <article class="chart-card" id="chart-status-wrap">
+          <h3 class="chart-title">Referral Status</h3>
+          <canvas id="chart-status-donut"></canvas>
+        </article>
+      </section>
+
+      <!-- CHARTS ROW 2 -->
+      <section id="charts-row-2">
+        <article class="chart-card" id="chart-service-wrap">
+          <h3 class="chart-title">Referrals by Service</h3>
+          <canvas id="chart-service-bar"></canvas>
+        </article>
+        <article class="chart-card" id="chart-outcomes-wrap">
+          <h3 class="chart-title">Appointment Outcomes</h3>
+          <canvas id="chart-outcomes-donut"></canvas>
+        </article>
+        <article class="chart-card" id="chart-sources-wrap">
+          <h3 class="chart-title">Referral Sources</h3>
+          <canvas id="chart-sources-bar"></canvas>
+        </article>
+      </section>
+
+      <!-- REFERRAL TABLE -->
+      <section id="table-section">
+        <div id="table-header">
+          <h3>Recent Referrals</h3>
+          <span id="table-count">0 records</span>
+        </div>
+        <div id="table-wrapper">
+          <table id="referrals-table">
+            <thead>
+              <tr>
+                <th>Ref ID</th>
+                <th>Patient</th>
+                <th>Service</th>
+                <th>Status</th>
+                <th>Team</th>
+                <th>Source</th>
+                <th>Opened</th>
+              </tr>
+            </thead>
+            <tbody id="table-body">
+              <!-- Rows injected by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div><!-- /content -->
+  </main><!-- /main -->
+
+</body>
+</html>
