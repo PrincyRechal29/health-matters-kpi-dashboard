@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Health Matters KPI Dashboard — Step C: CSS Variables</title>
+  <title>Health Matters KPI Dashboard — Step E: Google Fonts</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
   <style>
 
     /* ============================================================
@@ -54,8 +55,8 @@
       --shadow-lg:  0 4px 24px rgba(0,0,0,0.12);
 
       /* -- Typography -- */
-      --font-body:  sans-serif;
-      --font-mono:  monospace;
+      --font-body:  'DM Sans', sans-serif;
+      --font-mono:  'DM Mono', monospace;
       --font-size-xs:   10px;
       --font-size-sm:   12px;
       --font-size-md:   14px;
@@ -527,6 +528,44 @@
     .badge-cancelled  { background: #fee2e2; color: #991b1b; }
 
 
+
+    /* ============================================================
+       STEP E — GOOGLE FONTS ADDED
+       DM Sans  : Main UI font — clean, modern, readable at small sizes
+       DM Mono  : Monospace font — used for KPI values, IDs, timestamps
+       Both loaded via Google Fonts link in <head>
+       ============================================================ */
+
+    /* Font specimen box shown at top of page for evidence */
+    #font-specimen {
+      background: var(--colour-mint);
+      border: 1px solid var(--colour-teal);
+      border-radius: var(--radius-sm);
+      padding: var(--space-md) var(--space-lg);
+      margin-bottom: var(--space-lg);
+      display: flex;
+      gap: var(--space-xl);
+      flex-wrap: wrap;
+    }
+    .specimen-block p:first-child {
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      color: var(--colour-teal);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-xs);
+    }
+    .specimen-dm-sans {
+      font-family: 'DM Sans', sans-serif;
+      font-size: var(--font-size-lg);
+      color: var(--colour-text);
+    }
+    .specimen-dm-mono {
+      font-family: 'DM Mono', monospace;
+      font-size: var(--font-size-lg);
+      color: var(--colour-text);
+    }
+
     /* ============================================================
        STEP D — RESPONSIVENESS AT DIFFERENT SCREEN WIDTHS
        Three breakpoints tested:
@@ -677,6 +716,24 @@
     </header>
 
     <div id="content">
+
+      <!-- Font specimen — shows fonts loaded correctly (Step E evidence) -->
+      <div id="font-specimen">
+        <div class="specimen-block">
+          <p>DM Sans — Body Font</p>
+          <p class="specimen-dm-sans">Health Matters KPI Dashboard &nbsp; Aa Bb Cc 123</p>
+          <p class="specimen-dm-sans" style="font-weight:300">Light 300 — dashboard subtitles and muted text</p>
+          <p class="specimen-dm-sans" style="font-weight:600">SemiBold 600 — labels, nav items, badges</p>
+          <p class="specimen-dm-sans" style="font-weight:700">Bold 700 — headings, KPI labels, buttons</p>
+        </div>
+        <div class="specimen-block">
+          <p>DM Mono — Monospace Font</p>
+          <p class="specimen-dm-mono">879 &nbsp; 68.4% &nbsp; 8.3d &nbsp; #REF001</p>
+          <p class="specimen-dm-mono" style="font-size:12px">Last updated: 12/03/2026 14:32:01</p>
+          <p class="specimen-dm-mono" style="font-weight:500">SELECT * FROM referral_status_history</p>
+        </div>
+      </div>
+
       <div id="banner-loading" class="banner">Loading...</div>
       <div id="banner-error"   class="banner">Error connecting to database.</div>
       <div id="banner-empty"   class="banner">No records found.</div>
