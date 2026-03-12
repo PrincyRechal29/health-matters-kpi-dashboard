@@ -3,31 +3,550 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Health Matters KPI Dashboard</title>
+  <title>Health Matters KPI Dashboard — Step C: CSS Variables</title>
+  <style>
+
+    /* ============================================================
+       STEP C — CSS VARIABLES FOR CONSISTENT THEMING
+       All colours, spacing, fonts and shadows defined here once.
+       Change a variable and it updates everywhere on the page.
+       ============================================================ */
+
+    :root {
+      /* -- Colours -- */
+      --colour-navy:         #0f2444;
+      --colour-navy-mid:     #1a3a5c;
+      --colour-teal:         #00897b;
+      --colour-teal-bright:  #00bfa5;
+      --colour-mint:         #e0f5f2;
+      --colour-bg:           #f0f4f8;
+      --colour-surface:      #ffffff;
+      --colour-surface-2:    #f7f9fc;
+      --colour-border:       #dde3ec;
+      --colour-text:         #1a2332;
+      --colour-text-muted:   #6b7c93;
+      --colour-text-faint:   #9baab8;
+      --colour-green:        #22c55e;
+      --colour-amber:        #f59e0b;
+      --colour-red:          #ef4444;
+      --colour-blue:         #3b82f6;
+      --colour-purple:       #8b5cf6;
+
+      /* -- Layout -- */
+      --sidebar-width:  220px;
+      --topbar-height:  60px;
+
+      /* -- Spacing -- */
+      --space-xs:   4px;
+      --space-sm:   8px;
+      --space-md:   14px;
+      --space-lg:   22px;
+      --space-xl:   32px;
+
+      /* -- Border radius -- */
+      --radius:     10px;
+      --radius-sm:  6px;
+      --radius-pill: 999px;
+
+      /* -- Shadows -- */
+      --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
+      --shadow-md:  0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg:  0 4px 24px rgba(0,0,0,0.12);
+
+      /* -- Typography -- */
+      --font-body:  sans-serif;
+      --font-mono:  monospace;
+      --font-size-xs:   10px;
+      --font-size-sm:   12px;
+      --font-size-md:   14px;
+      --font-size-lg:   16px;
+      --font-size-xl:   24px;
+      --font-size-kpi:  30px;
+
+      /* -- Transitions -- */
+      --transition: 0.2s ease;
+    }
+
+    /* ============================================================
+       RESET
+       ============================================================ */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--font-size-md);
+      background: var(--colour-bg);
+      color: var(--colour-text);
+      display: flex;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SIDEBAR
+       ============================================================ */
+    #sidebar {
+      width: var(--sidebar-width);
+      min-height: 100vh;
+      background: var(--colour-navy);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    #sidebar-logo {
+      padding: var(--space-lg) var(--space-md);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #sidebar-logo h1 {
+      color: var(--colour-surface);
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+    }
+
+    #sidebar-logo span {
+      color: var(--colour-teal-bright);
+      font-size: var(--font-size-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-weight: 600;
+    }
+
+    #sidebar-nav {
+      padding: var(--space-md) 0;
+      flex: 1;
+    }
+
+    .nav-section-label {
+      padding: var(--space-sm) var(--space-md) var(--space-xs);
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      color: rgba(255,255,255,0.3);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+
+    .nav-item {
+      display: block;
+      padding: var(--space-sm) var(--space-md);
+      color: rgba(255,255,255,0.55);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      text-decoration: none;
+      border-left: 3px solid transparent;
+      transition: all var(--transition);
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.05);
+      color: var(--colour-surface);
+    }
+
+    .nav-item.active {
+      background: rgba(0,191,165,0.12);
+      color: var(--colour-teal-bright);
+      border-left-color: var(--colour-teal-bright);
+    }
+
+    #sidebar-footer {
+      padding: var(--space-md);
+      border-top: 1px solid rgba(255,255,255,0.08);
+    }
+
+    #user-profile {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-sm);
+      background: rgba(255,255,255,0.06);
+      border-radius: var(--radius-sm);
+    }
+
+    #user-avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: var(--colour-teal);
+      color: var(--colour-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    #user-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    #user-name {
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      color: var(--colour-surface);
+    }
+
+    #user-role {
+      font-size: var(--font-size-xs);
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ============================================================
+       MAIN AREA
+       ============================================================ */
+    #main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ============================================================
+       TOPBAR
+       ============================================================ */
+    #topbar {
+      height: var(--topbar-height);
+      background: var(--colour-surface);
+      border-bottom: 1px solid var(--colour-border);
+      display: flex;
+      align-items: center;
+      padding: 0 var(--space-lg);
+      gap: var(--space-sm);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      box-shadow: var(--shadow-sm);
+    }
+
+    #hamburger-btn {
+      display: none;
+      background: none;
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      width: 34px;
+      height: 34px;
+      font-size: var(--font-size-lg);
+      cursor: pointer;
+      color: var(--colour-text);
+    }
+
+    #topbar-title {
+      flex: 1;
+    }
+
+    #topbar-title h2 {
+      font-size: var(--font-size-lg);
+      font-weight: 700;
+      color: var(--colour-text);
+    }
+
+    #last-updated {
+      font-size: var(--font-size-xs);
+      color: var(--colour-text-muted);
+      font-family: var(--font-mono);
+    }
+
+    #topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+
+    select {
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      height: 34px;
+      padding: 0 var(--space-sm);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-surface);
+      color: var(--colour-text);
+      cursor: pointer;
+      outline: none;
+      transition: border-color var(--transition);
+    }
+
+    select:hover,
+    select:focus {
+      border-color: var(--colour-teal);
+    }
+
+    button {
+      font-family: var(--font-body);
+      font-size: var(--font-size-sm);
+      font-weight: 600;
+      height: 34px;
+      padding: 0 var(--space-md);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius-sm);
+      background: var(--colour-surface);
+      color: var(--colour-text);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    button:hover {
+      border-color: var(--colour-teal);
+      color: var(--colour-teal);
+    }
+
+    #export-btn {
+      background: var(--colour-teal);
+      color: var(--colour-surface);
+      border-color: var(--colour-teal);
+    }
+
+    #export-btn:hover {
+      background: var(--colour-teal-bright);
+      border-color: var(--colour-teal-bright);
+      color: var(--colour-surface);
+    }
+
+    /* ============================================================
+       CONTENT
+       ============================================================ */
+    #content {
+      padding: var(--space-lg);
+      flex: 1;
+    }
+
+    .section-label {
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      color: var(--colour-text-faint);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md);
+    }
+
+    /* ============================================================
+       BANNERS
+       ============================================================ */
+    .banner {
+      display: none;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      margin-bottom: var(--space-md);
+    }
+
+    #banner-loading {
+      background: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #bae6fd;
+    }
+
+    #banner-error {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    #banner-empty {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    /* ============================================================
+       KPI GRID
+       ============================================================ */
+    #kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .kpi-card {
+      background: var(--colour-surface);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius);
+      padding: var(--space-md) var(--space-md) var(--space-sm);
+      box-shadow: var(--shadow-sm);
+      transition: box-shadow var(--transition), transform var(--transition);
+      border-top: 3px solid var(--colour-teal);
+    }
+
+    .kpi-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .kpi-label {
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+      color: var(--colour-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-xs);
+    }
+
+    .kpi-value {
+      font-size: var(--font-size-kpi);
+      font-weight: 700;
+      color: var(--colour-text);
+      font-family: var(--font-mono);
+      line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+
+    .kpi-sub {
+      font-size: var(--font-size-xs);
+      color: var(--colour-text-faint);
+    }
+
+    /* ============================================================
+       CHART SECTIONS
+       ============================================================ */
+    #charts-row-1 {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    #charts-row-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: var(--space-md);
+      margin-bottom: var(--space-lg);
+    }
+
+    .chart-card {
+      background: var(--colour-surface);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius);
+      padding: var(--space-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .chart-title {
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      color: var(--colour-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-md);
+    }
+
+    /* ============================================================
+       TABLE
+       ============================================================ */
+    #table-section {
+      background: var(--colour-surface);
+      border: 1px solid var(--colour-border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    #table-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-md) var(--space-lg);
+      border-bottom: 1px solid var(--colour-border);
+      background: var(--colour-surface);
+    }
+
+    #table-header h3 {
+      font-size: var(--font-size-md);
+      font-weight: 700;
+    }
+
+    #table-count {
+      font-size: var(--font-size-xs);
+      color: var(--colour-text-muted);
+      font-family: var(--font-mono);
+      background: var(--colour-surface-2);
+      border: 1px solid var(--colour-border);
+      padding: 2px var(--space-sm);
+      border-radius: var(--radius-pill);
+    }
+
+    #table-wrapper {
+      overflow-x: auto;
+    }
+
+    #referrals-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #referrals-table thead tr {
+      background: var(--colour-surface-2);
+    }
+
+    #referrals-table th {
+      text-align: left;
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-xs);
+      font-weight: 700;
+      color: var(--colour-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid var(--colour-border);
+      white-space: nowrap;
+    }
+
+    #referrals-table td {
+      padding: var(--space-sm) var(--space-md);
+      font-size: var(--font-size-sm);
+      border-bottom: 1px solid var(--colour-surface-2);
+      vertical-align: middle;
+    }
+
+    #referrals-table tbody tr:hover td {
+      background: var(--colour-surface-2);
+    }
+
+    /* Status badges */
+    .badge {
+      display: inline-block;
+      padding: 2px var(--space-sm);
+      border-radius: var(--radius-pill);
+      font-size: var(--font-size-xs);
+      font-weight: 600;
+    }
+
+    .badge-completed  { background: #dcfce7; color: #166534; }
+    .badge-pending    { background: #fef9c3; color: #854d0e; }
+    .badge-triaged    { background: #ede9fe; color: #5b21b6; }
+    .badge-appointed  { background: #dbeafe; color: #1e40af; }
+    .badge-cancelled  { background: #fee2e2; color: #991b1b; }
+
+  </style>
 </head>
 <body>
 
   <!-- ── SIDEBAR ───────────────────────────────────────── -->
   <aside id="sidebar">
-
     <div id="sidebar-logo">
       <h1>Health Matters</h1>
       <span>Analytics</span>
     </div>
-
     <nav id="sidebar-nav">
       <p class="nav-section-label">Analytics</p>
       <a href="#" class="nav-item active">Dashboard</a>
       <a href="#" class="nav-item">Referrals</a>
       <a href="#" class="nav-item">Appointments</a>
       <a href="#" class="nav-item">Services</a>
-
       <p class="nav-section-label">Management</p>
       <a href="#" class="nav-item">Reports</a>
       <a href="#" class="nav-item">Admin</a>
       <a href="#" class="nav-item">Settings</a>
     </nav>
-
     <div id="sidebar-footer">
       <div id="user-profile">
         <div id="user-avatar">AL</div>
@@ -37,154 +556,80 @@
         </div>
       </div>
     </div>
-
   </aside>
 
-  <!-- ── MAIN AREA ─────────────────────────────────────── -->
+  <!-- ── MAIN ──────────────────────────────────────────── -->
   <main id="main">
-
-    <!-- TOPBAR -->
     <header id="topbar">
-
       <button id="hamburger-btn">&#9776;</button>
-
       <div id="topbar-title">
         <h2>KPI Overview</h2>
         <p id="last-updated">Last updated: --</p>
       </div>
-
       <div id="topbar-controls">
         <select id="date-filter">
           <option value="all">All time</option>
           <option value="30">Last 30 days</option>
           <option value="90">Last 90 days</option>
-          <option value="180">Last 6 months</option>
         </select>
-
-        <select id="team-filter">
-          <option value="all">All teams</option>
-        </select>
-
-        <select id="service-filter">
-          <option value="all">All services</option>
-        </select>
-
+        <select id="team-filter"><option value="all">All teams</option></select>
+        <select id="service-filter"><option value="all">All services</option></select>
         <select id="status-filter">
           <option value="all">All statuses</option>
-          <option value="Pending">Pending</option>
-          <option value="Triaged">Triaged</option>
-          <option value="Appointed">Appointed</option>
-          <option value="Completed">Completed</option>
-          <option value="Cancelled">Cancelled</option>
+          <option>Pending</option><option>Triaged</option>
+          <option>Appointed</option><option>Completed</option><option>Cancelled</option>
         </select>
-
         <button id="refresh-btn">Refresh</button>
-        <button id="export-btn">Export CSV</button>
+        <button id="export-btn">&#8595; Export CSV</button>
       </div>
-
     </header>
 
-    <!-- CONTENT -->
     <div id="content">
-
-      <!-- Status banners -->
-      <div id="banner-loading" class="banner">Loading data...</div>
+      <div id="banner-loading" class="banner">Loading...</div>
       <div id="banner-error"   class="banner">Error connecting to database.</div>
-      <div id="banner-empty"   class="banner">No records found for selected filters.</div>
+      <div id="banner-empty"   class="banner">No records found.</div>
 
-      <!-- KPI CARDS -->
       <section id="kpi-section">
-        <h3 class="section-label">Key Performance Indicators</h3>
+        <p class="section-label">Key Performance Indicators</p>
         <div id="kpi-grid">
-          <article class="kpi-card">
-            <p class="kpi-label">Total Referrals</p>
-            <p class="kpi-value" id="kpi-total">--</p>
-            <p class="kpi-sub">All time</p>
-          </article>
-          <article class="kpi-card">
-            <p class="kpi-label">Open Referrals</p>
-            <p class="kpi-value" id="kpi-open">--</p>
-            <p class="kpi-sub">Active cases</p>
-          </article>
-          <article class="kpi-card">
-            <p class="kpi-label">Completion Rate</p>
-            <p class="kpi-value" id="kpi-completion">--</p>
-            <p class="kpi-sub">Completed referrals</p>
-          </article>
-          <article class="kpi-card">
-            <p class="kpi-label">No-Show Rate</p>
-            <p class="kpi-value" id="kpi-noshow">--</p>
-            <p class="kpi-sub">Did not attend</p>
-          </article>
-          <article class="kpi-card">
-            <p class="kpi-label">Avg Days to Appt</p>
-            <p class="kpi-value" id="kpi-avgdays">--</p>
-            <p class="kpi-sub">Open to appointment</p>
-          </article>
-          <article class="kpi-card">
-            <p class="kpi-label">Active Services</p>
-            <p class="kpi-value" id="kpi-services">--</p>
-            <p class="kpi-sub">With appointments</p>
-          </article>
+          <article class="kpi-card"><p class="kpi-label">Total Referrals</p><p class="kpi-value" id="kpi-total">879</p><p class="kpi-sub">All time</p></article>
+          <article class="kpi-card"><p class="kpi-label">Open Referrals</p><p class="kpi-value" id="kpi-open">241</p><p class="kpi-sub">Active cases</p></article>
+          <article class="kpi-card"><p class="kpi-label">Completion Rate</p><p class="kpi-value" id="kpi-completion">68%</p><p class="kpi-sub">Completed</p></article>
+          <article class="kpi-card"><p class="kpi-label">No-Show Rate</p><p class="kpi-value" id="kpi-noshow">11%</p><p class="kpi-sub">Did not attend</p></article>
+          <article class="kpi-card"><p class="kpi-label">Avg Days to Appt</p><p class="kpi-value" id="kpi-avgdays">8.3d</p><p class="kpi-sub">Open → appt</p></article>
+          <article class="kpi-card"><p class="kpi-label">Active Services</p><p class="kpi-value" id="kpi-services">5</p><p class="kpi-sub">With appointments</p></article>
         </div>
       </section>
 
-      <!-- CHARTS ROW 1 -->
       <section id="charts-row-1">
-        <article class="chart-card" id="chart-line-wrap">
-          <h3 class="chart-title">Referrals Over Time</h3>
-          <canvas id="chart-referrals-line"></canvas>
-        </article>
-        <article class="chart-card" id="chart-status-wrap">
-          <h3 class="chart-title">Referral Status</h3>
-          <canvas id="chart-status-donut"></canvas>
-        </article>
+        <article class="chart-card"><h3 class="chart-title">Referrals Over Time</h3><canvas id="chart-referrals-line" height="120"></canvas></article>
+        <article class="chart-card"><h3 class="chart-title">Referral Status</h3><canvas id="chart-status-donut" height="120"></canvas></article>
       </section>
 
-      <!-- CHARTS ROW 2 -->
       <section id="charts-row-2">
-        <article class="chart-card" id="chart-service-wrap">
-          <h3 class="chart-title">Referrals by Service</h3>
-          <canvas id="chart-service-bar"></canvas>
-        </article>
-        <article class="chart-card" id="chart-outcomes-wrap">
-          <h3 class="chart-title">Appointment Outcomes</h3>
-          <canvas id="chart-outcomes-donut"></canvas>
-        </article>
-        <article class="chart-card" id="chart-sources-wrap">
-          <h3 class="chart-title">Referral Sources</h3>
-          <canvas id="chart-sources-bar"></canvas>
-        </article>
+        <article class="chart-card"><h3 class="chart-title">Referrals by Service</h3><canvas id="chart-service-bar" height="120"></canvas></article>
+        <article class="chart-card"><h3 class="chart-title">Appointment Outcomes</h3><canvas id="chart-outcomes-donut" height="120"></canvas></article>
+        <article class="chart-card"><h3 class="chart-title">Referral Sources</h3><canvas id="chart-sources-bar" height="120"></canvas></article>
       </section>
 
-      <!-- REFERRAL TABLE -->
       <section id="table-section">
         <div id="table-header">
           <h3>Recent Referrals</h3>
-          <span id="table-count">0 records</span>
+          <span id="table-count">3 records</span>
         </div>
         <div id="table-wrapper">
           <table id="referrals-table">
-            <thead>
-              <tr>
-                <th>Ref ID</th>
-                <th>Patient</th>
-                <th>Service</th>
-                <th>Status</th>
-                <th>Team</th>
-                <th>Source</th>
-                <th>Opened</th>
-              </tr>
-            </thead>
-            <tbody id="table-body">
-              <!-- Rows injected by JavaScript -->
+            <thead><tr><th>Ref ID</th><th>Patient</th><th>Service</th><th>Status</th><th>Team</th><th>Source</th><th>Opened</th></tr></thead>
+            <tbody>
+              <tr><td>#001</td><td>J. Smith</td><td>Mental Health</td><td><span class="badge badge-completed">Completed</span></td><td>Agile Lancs</td><td>GP</td><td>01/09/25</td></tr>
+              <tr><td>#002</td><td>A. Patel</td><td>Physiotherapy</td><td><span class="badge badge-appointed">Appointed</span></td><td>LANarchy</td><td>Self</td><td>03/09/25</td></tr>
+              <tr><td>#003</td><td>R. Khan</td><td>Nutrition</td><td><span class="badge badge-pending">Pending</span></td><td>Team SPAR</td><td>Other</td><td>05/09/25</td></tr>
             </tbody>
           </table>
         </div>
       </section>
-
-    </div><!-- /content -->
-  </main><!-- /main -->
+    </div>
+  </main>
 
 </body>
 </html>
