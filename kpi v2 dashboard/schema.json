@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "description": "Health Matters KPI Dashboard — JSON Data Schema",
+  "designed_by": "Agile Lancs — CO2007",
+
+  "tables": {
+
+    "services": {
+      "description": "The 5 clinical services offered by Health Matters",
+      "fields": {
+        "service_id":          { "type": "integer", "primary_key": true },
+        "service_name":        { "type": "string",  "example": "Mental Health" },
+        "service_description": { "type": "string" },
+        "service_pricing":     { "type": "integer", "note": "0 = NHS funded" },
+        "service_duration":    { "type": "integer", "note": "Duration in minutes" }
+      }
+    },
+
+    "patients": {
+      "description": "Service users / patients — 280 records",
+      "fields": {
+        "patient_id":        { "type": "integer", "primary_key": true },
+        "patient_name":      { "type": "string" },
+        "patient_dob":       { "type": "date",   "format": "YYYY-MM-DD" },
+        "patient_gender":    { "type": "string",  "values": ["Male","Female","Non-binary","Prefer not to say"] },
+        "patient_ethnicity": { "type": "string",  "note": "NHS ethnicity categories" },
+        "patient_phone":     { "type": "string" },
+        "patient_address":   { "type": "string" }
+      }
+    },
+
+    "staff": {
+      "description": "Staff members across 4 teams — 16 records",
+      "fields": {
+        "staff_id":    { "type": "integer", "primary_key": true },
+        "team_id":     { "type": "integer", "foreign_key": "teams.team_id" },
+        "team_name":   { "type": "string",  "values": ["Agile Lancs","LANarchy","Team SPAR","Bug Slayers"] },
+        "staff_name":  { "type": "string" },
+        "staff_role":  { "type": "string",  "values": ["Team Lead","Senior Clinician","Clinician","Support Worker"] },
+        "staff_email": { "type": "string" },
+        "department":  { "type": "string" }
+      }
+    },
+
+    "referrals": {
+      "description": "Core referral records — 879 records spanning Jul 2025 to Jan 2026",
+      "fields": {
+        "referral_id":          { "type": "integer", "primary_key": true },
+        "patient_id":           { "type": "integer", "foreign_key": "patients.patient_id" },
+        "patient_name":         { "type": "string",  "note": "Denormalised for dashboard display" },
+        "assigned_team_id":     { "type": "integer" },
+        "assigned_team_name":   { "type": "string" },
+        "assigned_staff_id":    { "type": "integer", "foreign_key": "staff.staff_id" },
+        "assigned_staff_name":  { "type": "string" },
+        "service_id":           { "type": "integer", "foreign_key": "services.service_id" },
+        "service_name":         { "type": "string" },
+        "referral_status":      { "type": "string",  "values": ["Pending","Triaged","Appointed","Completed","Cancelled"] },
+        "referral_source":      { "type": "string",  "values": ["GP","Self-Referral","Hospital","Other Service","Online"] },
+        "referral_open_date":   { "type": "date",    "format": "YYYY-MM-DD" },
+        "referral_reason":      { "type": "string" }
+      }
+    },
+
+    "appointments": {
+      "description": "Appointment records linked to referrals — 622 records",
+      "fields": {
+        "appointment_id":     { "type": "integer", "primary_key": true },
+        "referral_id":        { "type": "integer", "foreign_key": "referrals.referral_id" },
+        "patient_id":         { "type": "integer", "foreign_key": "patients.patient_id" },
+        "patient_name":       { "type": "string" },
+        "staff_id":           { "type": "integer", "foreign_key": "staff.staff_id" },
+        "staff_name":         { "type": "string" },
+        "service_id":         { "type": "integer", "foreign_key": "services.service_id" },
+        "service_name":       { "type": "string" },
+        "appointment_date":   { "type": "date",    "format": "YYYY-MM-DD" },
+        "appointment_time":   { "type": "string",  "format": "HH:MM" },
+        "appointment_status": { "type": "boolean", "note": "true = attended, false = did not attend" },
+        "notes":              { "type": "string" }
+      }
+    }
+  },
+
+  "kpi_definitions": {
+    "total_referrals":   "COUNT of all referral records matching filters",
+    "open_referrals":    "COUNT where referral_status NOT IN (Completed, Cancelled)",
+    "completion_rate":   "COUNT(Completed) / COUNT(total) * 100",
+    "no_show_rate":      "COUNT(appointment_status = false) / COUNT(appointments) * 100",
+    "avg_days_to_appt":  "AVG(appointment_date - referral_open_date) in days",
+    "active_services":   "COUNT DISTINCT service_id from appointments"
+  }
+}
