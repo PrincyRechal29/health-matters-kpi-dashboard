@@ -1,807 +1,709 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Health Matters KPI Dashboard — Step E: Google Fonts</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Health Matters — KPI Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <style>
-
-    /* ============================================================
-       STEP C — CSS VARIABLES FOR CONSISTENT THEMING
-       All colours, spacing, fonts and shadows defined here once.
-       Change a variable and it updates everywhere on the page.
-       ============================================================ */
-
     :root {
-      /* -- Colours -- */
-      --colour-navy:         #0f2444;
-      --colour-navy-mid:     #1a3a5c;
-      --colour-teal:         #00897b;
-      --colour-teal-bright:  #00bfa5;
-      --colour-mint:         #e0f5f2;
-      --colour-bg:           #f0f4f8;
-      --colour-surface:      #ffffff;
-      --colour-surface-2:    #f7f9fc;
-      --colour-border:       #dde3ec;
-      --colour-text:         #1a2332;
-      --colour-text-muted:   #6b7c93;
-      --colour-text-faint:   #9baab8;
-      --colour-green:        #22c55e;
-      --colour-amber:        #f59e0b;
-      --colour-red:          #ef4444;
-      --colour-blue:         #3b82f6;
-      --colour-purple:       #8b5cf6;
-
-      /* -- Layout -- */
-      --sidebar-width:  220px;
-      --topbar-height:  60px;
-
-      /* -- Spacing -- */
-      --space-xs:   4px;
-      --space-sm:   8px;
-      --space-md:   14px;
-      --space-lg:   22px;
-      --space-xl:   32px;
-
-      /* -- Border radius -- */
-      --radius:     10px;
-      --radius-sm:  6px;
-      --radius-pill: 999px;
-
-      /* -- Shadows -- */
-      --shadow-sm:  0 1px 4px rgba(0,0,0,0.06);
-      --shadow-md:  0 2px 12px rgba(0,0,0,0.08);
-      --shadow-lg:  0 4px 24px rgba(0,0,0,0.12);
-
-      /* -- Typography -- */
-      --font-body:  'DM Sans', sans-serif;
-      --font-mono:  'DM Mono', monospace;
-      --font-size-xs:   10px;
-      --font-size-sm:   12px;
-      --font-size-md:   14px;
-      --font-size-lg:   16px;
-      --font-size-xl:   24px;
-      --font-size-kpi:  30px;
-
-      /* -- Transitions -- */
-      --transition: 0.2s ease;
+      --navy:        #0f2444;
+      --teal:        #00897b;
+      --teal-bright: #00bfa5;
+      --mint:        #e0f5f2;
+      --bg:          #f0f4f8;
+      --surface:     #ffffff;
+      --surface-2:   #f7f9fc;
+      --border:      #dde3ec;
+      --text:        #1a2332;
+      --muted:       #6b7c93;
+      --faint:       #9baab8;
+      --green:       #22c55e;
+      --amber:       #f59e0b;
+      --red:         #ef4444;
+      --sidebar-w:   220px;
+      --topbar-h:    60px;
+      --radius:      10px;
+      --radius-sm:   6px;
+      --shadow-sm:   0 1px 4px rgba(0,0,0,0.06);
+      --shadow-md:   0 2px 12px rgba(0,0,0,0.08);
+      --shadow-lg:   0 4px 24px rgba(0,0,0,0.14);
+      --t:           0.2s ease;
     }
+    *,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+    body { font-family:'DM Sans',sans-serif; font-size:14px; background:var(--bg); color:var(--text); display:flex; min-height:100vh; }
 
-    /* ============================================================
-       RESET
-       ============================================================ */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: var(--font-body);
-      font-size: var(--font-size-md);
-      background: var(--colour-bg);
-      color: var(--colour-text);
-      display: flex;
-      min-height: 100vh;
-      line-height: 1.5;
-    }
-
-    /* ============================================================
-       SIDEBAR
-       ============================================================ */
+    /* ── SIDEBAR ── */
     #sidebar {
-      width: var(--sidebar-width);
-      min-height: 100vh;
-      background: var(--colour-navy);
-      display: flex;
-      flex-direction: column;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 100;
+      width:var(--sidebar-w); min-height:100vh; background:var(--navy);
+      display:flex; flex-direction:column; position:fixed; top:0; left:0; z-index:100;
+      transition:transform var(--t);
     }
+    #sidebar-logo { padding:20px 16px; border-bottom:1px solid rgba(255,255,255,0.08); }
+    #sidebar-logo h1 { color:#fff; font-size:16px; font-weight:700; }
+    #sidebar-logo span { color:var(--teal-bright); font-size:10px; text-transform:uppercase; letter-spacing:0.1em; font-weight:600; }
+    #sidebar-nav { padding:12px 0; flex:1; }
+    .nav-label { padding:8px 16px 2px; font-size:10px; font-weight:700; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.12em; }
+    .nav-item { display:block; padding:8px 16px; color:rgba(255,255,255,0.55); font-size:12px; font-weight:500; text-decoration:none; border-left:3px solid transparent; transition:all var(--t); cursor:pointer; }
+    .nav-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
+    .nav-item.active { background:rgba(0,191,165,0.12); color:var(--teal-bright); border-left-color:var(--teal-bright); }
+    #sidebar-footer { padding:12px; border-top:1px solid rgba(255,255,255,0.08); }
+    #user-profile { display:flex; align-items:center; gap:8px; padding:8px; background:rgba(255,255,255,0.06); border-radius:6px; }
+    #user-avatar { width:30px; height:30px; border-radius:50%; background:var(--teal); color:#fff; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:700; flex-shrink:0; }
+    #user-name { font-size:12px; font-weight:600; color:#fff; display:block; }
+    #user-role { font-size:10px; color:rgba(255,255,255,0.4); display:block; }
 
-    #sidebar-logo {
-      padding: var(--space-lg) var(--space-md);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
+    /* ── MAIN ── */
+    #main { margin-left:var(--sidebar-w); flex:1; display:flex; flex-direction:column; }
+
+    /* ── TOPBAR ── */
+    #topbar { height:var(--topbar-h); background:var(--surface); border-bottom:1px solid var(--border); display:flex; align-items:center; padding:0 22px; gap:8px; position:sticky; top:0; z-index:50; box-shadow:var(--shadow-sm); }
+    #hamburger-btn { display:none; background:none; border:1px solid var(--border); border-radius:6px; width:34px; height:34px; font-size:16px; cursor:pointer; color:var(--text); }
+    #topbar-title { flex:1; }
+    #topbar-title h2 { font-size:16px; font-weight:700; }
+    #last-updated { font-size:10px; color:var(--muted); font-family:'DM Mono',monospace; }
+    #topbar-controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+    select, .ctrl-btn {
+      font-family:'DM Sans',sans-serif; font-size:12px; height:34px; padding:0 10px;
+      border:1px solid var(--border); border-radius:6px; background:var(--surface);
+      color:var(--text); cursor:pointer; outline:none; transition:border-color var(--t);
     }
+    select:hover, select:focus { border-color:var(--teal); }
+    .ctrl-btn { font-weight:600; }
+    .ctrl-btn:hover { border-color:var(--teal); color:var(--teal); }
+    #import-btn { background:var(--navy); color:#fff; border-color:var(--navy); }
+    #import-btn:hover { background:#1a3a5c; color:#fff; }
+    #add-btn { background:var(--teal); color:#fff; border-color:var(--teal); }
+    #add-btn:hover { background:var(--teal-bright); border-color:var(--teal-bright); color:#fff; }
+    #export-btn { background:var(--surface); }
 
-    #sidebar-logo h1 {
-      color: var(--colour-surface);
-      font-size: var(--font-size-lg);
-      font-weight: 700;
+    /* ── CONTENT ── */
+    #content { padding:22px; flex:1; }
+
+    /* ── BANNERS ── */
+    .banner { display:none; padding:10px 14px; border-radius:6px; font-size:12px; font-weight:500; margin-bottom:14px; }
+    #banner-loading { background:#e0f2fe; color:#0369a1; border:1px solid #bae6fd; display:block; }
+    #banner-error   { background:#fef2f2; color:#b91c1c; border:1px solid #fecaca; }
+    #banner-empty   { background:#fffbeb; color:#92400e; border:1px solid #fde68a; }
+    #banner-success { background:#dcfce7; color:#166534; border:1px solid #bbf7d0; }
+
+    /* ── KPI GRID ── */
+    .section-label { font-size:10px; font-weight:700; color:var(--faint); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:12px; }
+    #kpi-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; margin-bottom:20px; }
+    .kpi-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow-sm); border-top:3px solid var(--teal); transition:box-shadow var(--t),transform var(--t); }
+    .kpi-card:hover { box-shadow:var(--shadow-md); transform:translateY(-2px); }
+    .kpi-label { font-size:10px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+    .kpi-value { font-size:28px; font-weight:700; color:var(--text); font-family:'DM Mono',monospace; line-height:1; margin-bottom:4px; }
+    .kpi-sub { font-size:10px; color:var(--faint); }
+
+    /* ── CHARTS ── */
+    #charts-row-1 { display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-bottom:12px; }
+    #charts-row-2 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
+    .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow-sm); }
+    .chart-title { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; }
+
+    /* ── TABLE ── */
+    #table-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow-sm); margin-bottom:20px; }
+    #table-header { display:flex; align-items:center; justify-content:space-between; padding:14px 22px; border-bottom:1px solid var(--border); }
+    #table-header h3 { font-size:14px; font-weight:700; }
+    #table-count { font-size:10px; color:var(--muted); font-family:'DM Mono',monospace; background:var(--surface-2); border:1px solid var(--border); padding:2px 8px; border-radius:999px; }
+    #table-wrapper { overflow-x:auto; }
+    #referrals-table { width:100%; border-collapse:collapse; }
+    #referrals-table thead tr { background:var(--surface-2); }
+    #referrals-table th { text-align:left; padding:8px 14px; font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; border-bottom:1px solid var(--border); white-space:nowrap; }
+    #referrals-table td { padding:8px 14px; font-size:12px; border-bottom:1px solid var(--surface-2); vertical-align:middle; }
+    #referrals-table tbody tr:hover td { background:var(--surface-2); }
+    .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:10px; font-weight:600; }
+    .badge-completed { background:#dcfce7; color:#166534; }
+    .badge-pending   { background:#fef9c3; color:#854d0e; }
+    .badge-triaged   { background:#ede9fe; color:#5b21b6; }
+    .badge-appointed { background:#dbeafe; color:#1e40af; }
+    .badge-cancelled { background:#fee2e2; color:#991b1b; }
+
+    /* ── MODAL OVERLAY ── */
+    #modal-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45);
+      z-index:200; align-items:center; justify-content:center;
     }
-
-    #sidebar-logo span {
-      color: var(--colour-teal-bright);
-      font-size: var(--font-size-xs);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 600;
+    #modal-overlay.open { display:flex; }
+    #modal {
+      background:var(--surface); border-radius:var(--radius); padding:28px;
+      width:520px; max-width:95vw; max-height:90vh; overflow-y:auto;
+      box-shadow:var(--shadow-lg);
     }
+    #modal h2 { font-size:16px; font-weight:700; margin-bottom:6px; }
+    #modal p.modal-sub { font-size:12px; color:var(--muted); margin-bottom:20px; }
+    .modal-tabs { display:flex; gap:8px; margin-bottom:20px; border-bottom:1px solid var(--border); }
+    .modal-tab { padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; border-bottom:2px solid transparent; color:var(--muted); background:none; border-top:none; border-left:none; border-right:none; }
+    .modal-tab.active { color:var(--teal); border-bottom-color:var(--teal); }
+    .tab-panel { display:none; }
+    .tab-panel.active { display:block; }
 
-    #sidebar-nav {
-      padding: var(--space-md) 0;
-      flex: 1;
+    /* Import tab */
+    #drop-zone {
+      border:2px dashed var(--border); border-radius:var(--radius); padding:32px;
+      text-align:center; cursor:pointer; transition:border-color var(--t), background var(--t);
+      margin-bottom:14px;
     }
+    #drop-zone:hover, #drop-zone.dragover { border-color:var(--teal); background:var(--mint); }
+    #drop-zone p { color:var(--muted); font-size:13px; }
+    #drop-zone strong { color:var(--teal); }
+    #file-input { display:none; }
 
-    .nav-section-label {
-      padding: var(--space-sm) var(--space-md) var(--space-xs);
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
+    /* Manual add form */
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+    .form-group { display:flex; flex-direction:column; gap:4px; }
+    .form-group.full { grid-column:1/-1; }
+    .form-group label { font-size:11px; font-weight:600; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; }
+    .form-group input, .form-group select, .form-group textarea {
+      font-family:'DM Sans',sans-serif; font-size:13px; padding:8px 10px;
+      border:1px solid var(--border); border-radius:6px; background:var(--surface);
+      color:var(--text); outline:none; transition:border-color var(--t);
     }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color:var(--teal); }
+    .modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+    .btn { font-family:'DM Sans',sans-serif; font-size:13px; font-weight:600; padding:8px 18px; border-radius:6px; cursor:pointer; border:1px solid var(--border); transition:all var(--t); }
+    .btn-primary { background:var(--teal); color:#fff; border-color:var(--teal); }
+    .btn-primary:hover { background:var(--teal-bright); border-color:var(--teal-bright); }
+    .btn-secondary { background:var(--surface); color:var(--text); }
+    .btn-secondary:hover { border-color:var(--teal); color:var(--teal); }
 
-    .nav-item {
-      display: block;
-      padding: var(--space-sm) var(--space-md);
-      color: rgba(255,255,255,0.55);
-      font-size: var(--font-size-sm);
-      font-weight: 500;
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: all var(--transition);
+    /* ── RESPONSIVE ── */
+    @media(max-width:1280px) { #kpi-grid { grid-template-columns:repeat(3,1fr); } #charts-row-1 { grid-template-columns:1fr; } #charts-row-2 { grid-template-columns:1fr 1fr; } }
+    @media(max-width:1024px) { :root { --sidebar-w:180px; } #charts-row-2 { grid-template-columns:1fr; } }
+    @media(max-width:768px) {
+      #sidebar { transform:translateX(-220px); width:220px; }
+      #sidebar.open { transform:translateX(0); box-shadow:var(--shadow-lg); }
+      #main { margin-left:0; }
+      #hamburger-btn { display:flex; align-items:center; justify-content:center; }
+      #topbar-controls select { display:none; }
+      #kpi-grid { grid-template-columns:repeat(2,1fr); }
+      #charts-row-1, #charts-row-2 { grid-template-columns:1fr; }
+      #content { padding:14px; }
     }
-
-    .nav-item:hover {
-      background: rgba(255,255,255,0.05);
-      color: var(--colour-surface);
-    }
-
-    .nav-item.active {
-      background: rgba(0,191,165,0.12);
-      color: var(--colour-teal-bright);
-      border-left-color: var(--colour-teal-bright);
-    }
-
-    #sidebar-footer {
-      padding: var(--space-md);
-      border-top: 1px solid rgba(255,255,255,0.08);
-    }
-
-    #user-profile {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-      padding: var(--space-sm);
-      background: rgba(255,255,255,0.06);
-      border-radius: var(--radius-sm);
-    }
-
-    #user-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--colour-teal);
-      color: var(--colour-surface);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      flex-shrink: 0;
-    }
-
-    #user-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    #user-name {
-      font-size: var(--font-size-sm);
-      font-weight: 600;
-      color: var(--colour-surface);
-    }
-
-    #user-role {
-      font-size: var(--font-size-xs);
-      color: rgba(255,255,255,0.4);
-    }
-
-    /* ============================================================
-       MAIN AREA
-       ============================================================ */
-    #main {
-      margin-left: var(--sidebar-width);
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* ============================================================
-       TOPBAR
-       ============================================================ */
-    #topbar {
-      height: var(--topbar-height);
-      background: var(--colour-surface);
-      border-bottom: 1px solid var(--colour-border);
-      display: flex;
-      align-items: center;
-      padding: 0 var(--space-lg);
-      gap: var(--space-sm);
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      box-shadow: var(--shadow-sm);
-    }
-
-    #hamburger-btn {
-      display: none;
-      background: none;
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius-sm);
-      width: 34px;
-      height: 34px;
-      font-size: var(--font-size-lg);
-      cursor: pointer;
-      color: var(--colour-text);
-    }
-
-    #topbar-title {
-      flex: 1;
-    }
-
-    #topbar-title h2 {
-      font-size: var(--font-size-lg);
-      font-weight: 700;
-      color: var(--colour-text);
-    }
-
-    #last-updated {
-      font-size: var(--font-size-xs);
-      color: var(--colour-text-muted);
-      font-family: var(--font-mono);
-    }
-
-    #topbar-controls {
-      display: flex;
-      align-items: center;
-      gap: var(--space-sm);
-    }
-
-    select {
-      font-family: var(--font-body);
-      font-size: var(--font-size-sm);
-      height: 34px;
-      padding: 0 var(--space-sm);
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius-sm);
-      background: var(--colour-surface);
-      color: var(--colour-text);
-      cursor: pointer;
-      outline: none;
-      transition: border-color var(--transition);
-    }
-
-    select:hover,
-    select:focus {
-      border-color: var(--colour-teal);
-    }
-
-    button {
-      font-family: var(--font-body);
-      font-size: var(--font-size-sm);
-      font-weight: 600;
-      height: 34px;
-      padding: 0 var(--space-md);
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius-sm);
-      background: var(--colour-surface);
-      color: var(--colour-text);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    button:hover {
-      border-color: var(--colour-teal);
-      color: var(--colour-teal);
-    }
-
-    #export-btn {
-      background: var(--colour-teal);
-      color: var(--colour-surface);
-      border-color: var(--colour-teal);
-    }
-
-    #export-btn:hover {
-      background: var(--colour-teal-bright);
-      border-color: var(--colour-teal-bright);
-      color: var(--colour-surface);
-    }
-
-    /* ============================================================
-       CONTENT
-       ============================================================ */
-    #content {
-      padding: var(--space-lg);
-      flex: 1;
-    }
-
-    .section-label {
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      color: var(--colour-text-faint);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-md);
-    }
-
-    /* ============================================================
-       BANNERS
-       ============================================================ */
-    .banner {
-      display: none;
-      padding: var(--space-sm) var(--space-md);
-      border-radius: var(--radius-sm);
-      font-size: var(--font-size-sm);
-      font-weight: 500;
-      margin-bottom: var(--space-md);
-    }
-
-    #banner-loading {
-      background: #e0f2fe;
-      color: #0369a1;
-      border: 1px solid #bae6fd;
-    }
-
-    #banner-error {
-      background: #fef2f2;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
-    }
-
-    #banner-empty {
-      background: #fffbeb;
-      color: #92400e;
-      border: 1px solid #fde68a;
-    }
-
-    /* ============================================================
-       KPI GRID
-       ============================================================ */
-    #kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-    }
-
-    .kpi-card {
-      background: var(--colour-surface);
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius);
-      padding: var(--space-md) var(--space-md) var(--space-sm);
-      box-shadow: var(--shadow-sm);
-      transition: box-shadow var(--transition), transform var(--transition);
-      border-top: 3px solid var(--colour-teal);
-    }
-
-    .kpi-card:hover {
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-
-    .kpi-label {
-      font-size: var(--font-size-xs);
-      font-weight: 600;
-      color: var(--colour-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: var(--space-xs);
-    }
-
-    .kpi-value {
-      font-size: var(--font-size-kpi);
-      font-weight: 700;
-      color: var(--colour-text);
-      font-family: var(--font-mono);
-      line-height: 1;
-      margin-bottom: var(--space-xs);
-    }
-
-    .kpi-sub {
-      font-size: var(--font-size-xs);
-      color: var(--colour-text-faint);
-    }
-
-    /* ============================================================
-       CHART SECTIONS
-       ============================================================ */
-    #charts-row-1 {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: var(--space-md);
-      margin-bottom: var(--space-md);
-    }
-
-    #charts-row-2 {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: var(--space-md);
-      margin-bottom: var(--space-lg);
-    }
-
-    .chart-card {
-      background: var(--colour-surface);
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius);
-      padding: var(--space-md);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .chart-title {
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      color: var(--colour-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: var(--space-md);
-    }
-
-    /* ============================================================
-       TABLE
-       ============================================================ */
-    #table-section {
-      background: var(--colour-surface);
-      border: 1px solid var(--colour-border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-    }
-
-    #table-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--space-md) var(--space-lg);
-      border-bottom: 1px solid var(--colour-border);
-      background: var(--colour-surface);
-    }
-
-    #table-header h3 {
-      font-size: var(--font-size-md);
-      font-weight: 700;
-    }
-
-    #table-count {
-      font-size: var(--font-size-xs);
-      color: var(--colour-text-muted);
-      font-family: var(--font-mono);
-      background: var(--colour-surface-2);
-      border: 1px solid var(--colour-border);
-      padding: 2px var(--space-sm);
-      border-radius: var(--radius-pill);
-    }
-
-    #table-wrapper {
-      overflow-x: auto;
-    }
-
-    #referrals-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    #referrals-table thead tr {
-      background: var(--colour-surface-2);
-    }
-
-    #referrals-table th {
-      text-align: left;
-      padding: var(--space-sm) var(--space-md);
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      color: var(--colour-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      border-bottom: 1px solid var(--colour-border);
-      white-space: nowrap;
-    }
-
-    #referrals-table td {
-      padding: var(--space-sm) var(--space-md);
-      font-size: var(--font-size-sm);
-      border-bottom: 1px solid var(--colour-surface-2);
-      vertical-align: middle;
-    }
-
-    #referrals-table tbody tr:hover td {
-      background: var(--colour-surface-2);
-    }
-
-    /* Status badges */
-    .badge {
-      display: inline-block;
-      padding: 2px var(--space-sm);
-      border-radius: var(--radius-pill);
-      font-size: var(--font-size-xs);
-      font-weight: 600;
-    }
-
-    .badge-completed  { background: #dcfce7; color: #166534; }
-    .badge-pending    { background: #fef9c3; color: #854d0e; }
-    .badge-triaged    { background: #ede9fe; color: #5b21b6; }
-    .badge-appointed  { background: #dbeafe; color: #1e40af; }
-    .badge-cancelled  { background: #fee2e2; color: #991b1b; }
-
-
-
-    /* ============================================================
-       STEP E — GOOGLE FONTS ADDED
-       DM Sans  : Main UI font — clean, modern, readable at small sizes
-       DM Mono  : Monospace font — used for KPI values, IDs, timestamps
-       Both loaded via Google Fonts link in <head>
-       ============================================================ */
-
-    /* Font specimen box shown at top of page for evidence */
-    #font-specimen {
-      background: var(--colour-mint);
-      border: 1px solid var(--colour-teal);
-      border-radius: var(--radius-sm);
-      padding: var(--space-md) var(--space-lg);
-      margin-bottom: var(--space-lg);
-      display: flex;
-      gap: var(--space-xl);
-      flex-wrap: wrap;
-    }
-    .specimen-block p:first-child {
-      font-size: var(--font-size-xs);
-      font-weight: 700;
-      color: var(--colour-teal);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      margin-bottom: var(--space-xs);
-    }
-    .specimen-dm-sans {
-      font-family: 'DM Sans', sans-serif;
-      font-size: var(--font-size-lg);
-      color: var(--colour-text);
-    }
-    .specimen-dm-mono {
-      font-family: 'DM Mono', monospace;
-      font-size: var(--font-size-lg);
-      color: var(--colour-text);
-    }
-
-    /* ============================================================
-       STEP D — RESPONSIVENESS AT DIFFERENT SCREEN WIDTHS
-       Three breakpoints tested:
-         - Desktop  1280px+  : 6 KPI cols, 2-col charts, sidebar visible
-         - Tablet   768-1280 : 3 KPI cols, stacked charts, sidebar visible
-         - Mobile   <768px   : 2 KPI cols, all stacked, sidebar hidden
-       ============================================================ */
-
-    /* ── Tablet (max 1280px) ───────────────────────────── */
-    @media (max-width: 1280px) {
-      #kpi-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      #charts-row-1 {
-        grid-template-columns: 1fr;
-      }
-      #charts-row-2 {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    /* ── Tablet narrow (max 1024px) ────────────────────── */
-    @media (max-width: 1024px) {
-      :root {
-        --sidebar-width: 180px;
-      }
-      #charts-row-2 {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* ── Mobile (max 768px) ────────────────────────────── */
-    @media (max-width: 768px) {
-      /* Sidebar hides off screen — toggled by JS */
-      #sidebar {
-        transform: translateX(-220px);
-        width: 220px;
-        transition: transform var(--transition);
-      }
-      #sidebar.open {
-        transform: translateX(0);
-        box-shadow: var(--shadow-lg);
-      }
-
-      /* Main takes full width */
-      #main {
-        margin-left: 0;
-      }
-
-      /* Show hamburger button */
-      #hamburger-btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      /* Hide dropdowns on mobile to save space */
-      #topbar-controls select {
-        display: none;
-      }
-
-      /* KPI cards: 2 per row */
-      #kpi-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      /* Charts all stack */
-      #charts-row-1,
-      #charts-row-2 {
-        grid-template-columns: 1fr;
-      }
-
-      /* Tighten padding */
-      #content {
-        padding: var(--space-md);
-      }
-    }
-
-    /* ── Small mobile (max 480px) ──────────────────────── */
-    @media (max-width: 480px) {
-      #kpi-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-      .kpi-value {
-        font-size: var(--font-size-xl);
-      }
-      #topbar {
-        padding: 0 var(--space-md);
-      }
-    }
-
+    @media(max-width:480px) { .kpi-value { font-size:22px; } #topbar { padding:0 14px; } }
   </style>
 </head>
 <body>
 
-  <!-- ── SIDEBAR ───────────────────────────────────────── -->
-  <aside id="sidebar">
-    <div id="sidebar-logo">
-      <h1>Health Matters</h1>
-      <span>Analytics</span>
-    </div>
-    <nav id="sidebar-nav">
-      <p class="nav-section-label">Analytics</p>
-      <a href="#" class="nav-item active">Dashboard</a>
-      <a href="#" class="nav-item">Referrals</a>
-      <a href="#" class="nav-item">Appointments</a>
-      <a href="#" class="nav-item">Services</a>
-      <p class="nav-section-label">Management</p>
-      <a href="#" class="nav-item">Reports</a>
-      <a href="#" class="nav-item">Admin</a>
-      <a href="#" class="nav-item">Settings</a>
-    </nav>
-    <div id="sidebar-footer">
-      <div id="user-profile">
-        <div id="user-avatar">AL</div>
-        <div id="user-info">
-          <span id="user-name">Agile Lancs</span>
-          <span id="user-role">Manager View</span>
-        </div>
+<!-- ── SIDEBAR ─────────────────────────────────────────────── -->
+<aside id="sidebar">
+  <div id="sidebar-logo">
+    <h1>Health Matters</h1>
+    <span>KPI Analytics</span>
+  </div>
+  <nav id="sidebar-nav">
+    <p class="nav-label">Analytics</p>
+    <span class="nav-item active">Dashboard</span>
+    <span class="nav-item">Referrals</span>
+    <span class="nav-item">Appointments</span>
+    <span class="nav-item">Services</span>
+    <p class="nav-label">Management</p>
+    <span class="nav-item">Reports</span>
+    <span class="nav-item">Settings</span>
+  </nav>
+  <div id="sidebar-footer">
+    <div id="user-profile">
+      <div id="user-avatar">HM</div>
+      <div>
+        <span id="user-name">Health Matters</span>
+        <span id="user-role">Manager View</span>
       </div>
     </div>
-  </aside>
+  </div>
+</aside>
 
-  <!-- ── MAIN ──────────────────────────────────────────── -->
-  <main id="main">
-    <header id="topbar">
-      <button id="hamburger-btn">&#9776;</button>
-      <div id="topbar-title">
-        <h2>KPI Overview</h2>
-        <p id="last-updated">Last updated: --</p>
-      </div>
-      <div id="topbar-controls">
-        <select id="date-filter">
-          <option value="all">All time</option>
-          <option value="30">Last 30 days</option>
-          <option value="90">Last 90 days</option>
-        </select>
-        <select id="team-filter"><option value="all">All teams</option></select>
-        <select id="service-filter"><option value="all">All services</option></select>
-        <select id="status-filter">
-          <option value="all">All statuses</option>
-          <option>Pending</option><option>Triaged</option>
-          <option>Appointed</option><option>Completed</option><option>Cancelled</option>
-        </select>
-        <button id="refresh-btn">Refresh</button>
-        <button id="export-btn">&#8595; Export CSV</button>
-      </div>
-    </header>
+<!-- ── MAIN ────────────────────────────────────────────────── -->
+<main id="main">
 
-    <div id="content">
-
-      <!-- Font specimen — shows fonts loaded correctly (Step E evidence) -->
-      <div id="font-specimen">
-        <div class="specimen-block">
-          <p>DM Sans — Body Font</p>
-          <p class="specimen-dm-sans">Health Matters KPI Dashboard &nbsp; Aa Bb Cc 123</p>
-          <p class="specimen-dm-sans" style="font-weight:300">Light 300 — dashboard subtitles and muted text</p>
-          <p class="specimen-dm-sans" style="font-weight:600">SemiBold 600 — labels, nav items, badges</p>
-          <p class="specimen-dm-sans" style="font-weight:700">Bold 700 — headings, KPI labels, buttons</p>
-        </div>
-        <div class="specimen-block">
-          <p>DM Mono — Monospace Font</p>
-          <p class="specimen-dm-mono">879 &nbsp; 68.4% &nbsp; 8.3d &nbsp; #REF001</p>
-          <p class="specimen-dm-mono" style="font-size:12px">Last updated: 12/03/2026 14:32:01</p>
-          <p class="specimen-dm-mono" style="font-weight:500">SELECT * FROM referral_status_history</p>
-        </div>
-      </div>
-
-      <div id="banner-loading" class="banner">Loading...</div>
-      <div id="banner-error"   class="banner">Error connecting to database.</div>
-      <div id="banner-empty"   class="banner">No records found.</div>
-
-      <section id="kpi-section">
-        <p class="section-label">Key Performance Indicators</p>
-        <div id="kpi-grid">
-          <article class="kpi-card"><p class="kpi-label">Total Referrals</p><p class="kpi-value" id="kpi-total">879</p><p class="kpi-sub">All time</p></article>
-          <article class="kpi-card"><p class="kpi-label">Open Referrals</p><p class="kpi-value" id="kpi-open">241</p><p class="kpi-sub">Active cases</p></article>
-          <article class="kpi-card"><p class="kpi-label">Completion Rate</p><p class="kpi-value" id="kpi-completion">68%</p><p class="kpi-sub">Completed</p></article>
-          <article class="kpi-card"><p class="kpi-label">No-Show Rate</p><p class="kpi-value" id="kpi-noshow">11%</p><p class="kpi-sub">Did not attend</p></article>
-          <article class="kpi-card"><p class="kpi-label">Avg Days to Appt</p><p class="kpi-value" id="kpi-avgdays">8.3d</p><p class="kpi-sub">Open → appt</p></article>
-          <article class="kpi-card"><p class="kpi-label">Active Services</p><p class="kpi-value" id="kpi-services">5</p><p class="kpi-sub">With appointments</p></article>
-        </div>
-      </section>
-
-      <section id="charts-row-1">
-        <article class="chart-card"><h3 class="chart-title">Referrals Over Time</h3><canvas id="chart-referrals-line" height="120"></canvas></article>
-        <article class="chart-card"><h3 class="chart-title">Referral Status</h3><canvas id="chart-status-donut" height="120"></canvas></article>
-      </section>
-
-      <section id="charts-row-2">
-        <article class="chart-card"><h3 class="chart-title">Referrals by Service</h3><canvas id="chart-service-bar" height="120"></canvas></article>
-        <article class="chart-card"><h3 class="chart-title">Appointment Outcomes</h3><canvas id="chart-outcomes-donut" height="120"></canvas></article>
-        <article class="chart-card"><h3 class="chart-title">Referral Sources</h3><canvas id="chart-sources-bar" height="120"></canvas></article>
-      </section>
-
-      <section id="table-section">
-        <div id="table-header">
-          <h3>Recent Referrals</h3>
-          <span id="table-count">3 records</span>
-        </div>
-        <div id="table-wrapper">
-          <table id="referrals-table">
-            <thead><tr><th>Ref ID</th><th>Patient</th><th>Service</th><th>Status</th><th>Team</th><th>Source</th><th>Opened</th></tr></thead>
-            <tbody>
-              <tr><td>#001</td><td>J. Smith</td><td>Mental Health</td><td><span class="badge badge-completed">Completed</span></td><td>Agile Lancs</td><td>GP</td><td>01/09/25</td></tr>
-              <tr><td>#002</td><td>A. Patel</td><td>Physiotherapy</td><td><span class="badge badge-appointed">Appointed</span></td><td>LANarchy</td><td>Self</td><td>03/09/25</td></tr>
-              <tr><td>#003</td><td>R. Khan</td><td>Nutrition</td><td><span class="badge badge-pending">Pending</span></td><td>Team SPAR</td><td>Other</td><td>05/09/25</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+  <!-- TOPBAR -->
+  <header id="topbar">
+    <button id="hamburger-btn">&#9776;</button>
+    <div id="topbar-title">
+      <h2>KPI Overview</h2>
+      <p id="last-updated">No data loaded</p>
     </div>
-  </main>
+    <div id="topbar-controls">
+      <select id="date-filter">
+        <option value="all">All time</option>
+        <option value="30">Last 30 days</option>
+        <option value="90">Last 90 days</option>
+        <option value="180">Last 6 months</option>
+      </select>
+      <select id="service-filter"><option value="all">All services</option></select>
+      <select id="status-filter">
+        <option value="all">All statuses</option>
+        <option>Pending</option><option>Triaged</option>
+        <option>Appointed</option><option>Completed</option><option>Cancelled</option>
+      </select>
+      <button class="ctrl-btn" id="import-btn">&#8593; Import JSON</button>
+      <button class="ctrl-btn" id="add-btn">+ Add Record</button>
+      <button class="ctrl-btn" id="export-btn">&#8595; Export CSV</button>
+    </div>
+  </header>
 
+  <!-- CONTENT -->
+  <div id="content">
+    <div id="banner-loading" class="banner">No data loaded yet — click <strong>Import JSON</strong> to load mock_data.json or use <strong>Add Record</strong> to enter data manually.</div>
+    <div id="banner-error"   class="banner"></div>
+    <div id="banner-empty"   class="banner">No records match the selected filters.</div>
+    <div id="banner-success" class="banner"></div>
 
-  <script>
-    // Hamburger toggle for mobile sidebar
-    document.getElementById('hamburger-btn').addEventListener('click', function () {
-      document.getElementById('sidebar').classList.toggle('open');
+    <!-- KPI CARDS -->
+    <section id="kpi-section">
+      <p class="section-label">Key Performance Indicators</p>
+      <div id="kpi-grid">
+        <article class="kpi-card"><p class="kpi-label">Total Referrals</p><p class="kpi-value" id="kpi-total">--</p><p class="kpi-sub">All records</p></article>
+        <article class="kpi-card"><p class="kpi-label">Open Referrals</p><p class="kpi-value" id="kpi-open">--</p><p class="kpi-sub">Active cases</p></article>
+        <article class="kpi-card"><p class="kpi-label">Completion Rate</p><p class="kpi-value" id="kpi-completion">--</p><p class="kpi-sub">% completed</p></article>
+        <article class="kpi-card"><p class="kpi-label">No-Show Rate</p><p class="kpi-value" id="kpi-noshow">--</p><p class="kpi-sub">Did not attend</p></article>
+        <article class="kpi-card"><p class="kpi-label">Avg Days to Appt</p><p class="kpi-value" id="kpi-avgdays">--</p><p class="kpi-sub">Referral → appt</p></article>
+        <article class="kpi-card"><p class="kpi-label">Active Services</p><p class="kpi-value" id="kpi-services">--</p><p class="kpi-sub">With appointments</p></article>
+      </div>
+    </section>
+
+    <!-- CHARTS ROW 1 -->
+    <section id="charts-row-1">
+      <article class="chart-card"><h3 class="chart-title">Referrals Over Time</h3><canvas id="chart-line"></canvas></article>
+      <article class="chart-card"><h3 class="chart-title">Referral Status Breakdown</h3><canvas id="chart-status"></canvas></article>
+    </section>
+
+    <!-- CHARTS ROW 2 -->
+    <section id="charts-row-2">
+      <article class="chart-card"><h3 class="chart-title">Referrals by Service</h3><canvas id="chart-service"></canvas></article>
+      <article class="chart-card"><h3 class="chart-title">Appointment Outcomes</h3><canvas id="chart-outcomes"></canvas></article>
+      <article class="chart-card"><h3 class="chart-title">Referral Sources</h3><canvas id="chart-sources"></canvas></article>
+    </section>
+
+    <!-- TABLE -->
+    <section id="table-section">
+      <div id="table-header">
+        <h3>Recent Referrals</h3>
+        <span id="table-count">0 records</span>
+      </div>
+      <div id="table-wrapper">
+        <table id="referrals-table">
+          <thead><tr><th>Ref ID</th><th>Patient</th><th>Service</th><th>Status</th><th>Source</th><th>Opened</th></tr></thead>
+          <tbody id="table-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ── MODAL ────────────────────────────────────────────────── -->
+<div id="modal-overlay">
+  <div id="modal">
+    <h2 id="modal-title">Data</h2>
+    <p class="modal-sub" id="modal-sub"></p>
+
+    <div class="modal-tabs" id="modal-tabs" style="display:none">
+      <button class="modal-tab active" data-tab="import">Import JSON</button>
+      <button class="modal-tab" data-tab="manual">Add Manually</button>
+    </div>
+
+    <!-- Import tab -->
+    <div class="tab-panel active" id="tab-import">
+      <div id="drop-zone">
+        <p>&#128196; Drag & drop <strong>mock_data.json</strong> here</p>
+        <p style="margin-top:8px;font-size:11px">or click to browse</p>
+        <input type="file" id="file-input" accept=".json"/>
+      </div>
+      <p style="font-size:11px;color:var(--muted);text-align:center">Expected format: mock_data.json with referrals, appointments, patients and services arrays</p>
+    </div>
+
+    <!-- Manual add tab -->
+    <div class="tab-panel" id="tab-manual">
+      <div class="form-grid">
+        <div class="form-group">
+          <label>Patient Name</label>
+          <input type="text" id="f-patient" placeholder="e.g. J. Smith"/>
+        </div>
+        <div class="form-group">
+          <label>Service</label>
+          <select id="f-service">
+            <option>Mental Health</option>
+            <option>Physiotherapy</option>
+            <option>Occupational Health</option>
+            <option>Ergonomic Review</option>
+            <option>Nutrition</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="f-status">
+            <option>Pending</option>
+            <option>Triaged</option>
+            <option>Appointed</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Referral Source</label>
+          <select id="f-source">
+            <option>GP</option>
+            <option>Self-Referral</option>
+            <option>Hospital</option>
+            <option>Other Service</option>
+            <option>Online</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Date Opened</label>
+          <input type="date" id="f-date"/>
+        </div>
+        <div class="form-group">
+          <label>Appointment Status</label>
+          <select id="f-appt">
+            <option value="none">No appointment yet</option>
+            <option value="attended">Attended</option>
+            <option value="dna">Did Not Attend</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Referral Reason</label>
+          <input type="text" id="f-reason" placeholder="e.g. Workplace stress and anxiety"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="modal-cancel">Cancel</button>
+      <button class="btn btn-primary" id="modal-confirm">Load Data</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────
+let allReferrals    = [];
+let allAppointments = [];
+let charts          = {};
+
+const COLOURS = ['#00897b','#3b82f6','#f59e0b','#8b5cf6','#ef4444','#22c55e','#0ea5e9','#f97316'];
+
+// ── MODAL LOGIC ───────────────────────────────────────────────
+const overlay    = document.getElementById('modal-overlay');
+const modalTitle = document.getElementById('modal-title');
+const modalSub   = document.getElementById('modal-sub');
+const modalTabs  = document.getElementById('modal-tabs');
+const tabImport  = document.getElementById('tab-import');
+const tabManual  = document.getElementById('tab-manual');
+const confirmBtn = document.getElementById('modal-confirm');
+
+let currentModal = 'import';
+
+function openImportModal() {
+  currentModal = 'import';
+  modalTitle.textContent = 'Import Data';
+  modalSub.textContent   = 'Load mock_data.json to populate the dashboard';
+  modalTabs.style.display = 'flex';
+  showTab('import');
+  confirmBtn.textContent = 'Load Data';
+  overlay.classList.add('open');
+}
+
+function openAddModal() {
+  currentModal = 'manual';
+  modalTitle.textContent = 'Add Referral Record';
+  modalSub.textContent   = 'Manually enter a new referral into the dashboard';
+  modalTabs.style.display = 'flex';
+  showTab('manual');
+  confirmBtn.textContent = 'Add Record';
+  document.getElementById('f-date').value = new Date().toISOString().slice(0,10);
+  overlay.classList.add('open');
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  tabImport.classList.toggle('active', tab === 'import');
+  tabManual.classList.toggle('active', tab === 'manual');
+  currentModal = tab;
+  confirmBtn.textContent = tab === 'import' ? 'Load Data' : 'Add Record';
+}
+
+document.querySelectorAll('.modal-tab').forEach(t => {
+  t.addEventListener('click', () => showTab(t.dataset.tab));
+});
+
+document.getElementById('import-btn').addEventListener('click', openImportModal);
+document.getElementById('add-btn').addEventListener('click', openAddModal);
+document.getElementById('modal-cancel').addEventListener('click', () => overlay.classList.remove('open'));
+overlay.addEventListener('click', e => { if (e.target === overlay) overlay.classList.remove('open'); });
+
+confirmBtn.addEventListener('click', () => {
+  if (currentModal === 'import') {
+    document.getElementById('file-input').click();
+  } else {
+    addManualRecord();
+  }
+});
+
+// ── FILE IMPORT ───────────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+const fileInput = document.getElementById('file-input');
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('dragover'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('dragover');
+  const file = e.dataTransfer.files[0];
+  if (file) readJsonFile(file);
+});
+fileInput.addEventListener('change', e => {
+  if (e.target.files[0]) readJsonFile(e.target.files[0]);
+});
+
+function readJsonFile(file) {
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (!data.referrals) throw new Error('No referrals array found in JSON');
+      allReferrals    = data.referrals    || [];
+      allAppointments = data.appointments || [];
+      overlay.classList.remove('open');
+      showBanner('success', `✓ Loaded ${allReferrals.length} referrals and ${allAppointments.length} appointments from ${file.name}`);
+      populateServiceFilter();
+      renderDashboard();
+    } catch(err) {
+      showBanner('error', '✗ Could not read file — ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ── MANUAL ADD ────────────────────────────────────────────────
+function addManualRecord() {
+  const patient = document.getElementById('f-patient').value.trim();
+  if (!patient) { alert('Please enter a patient name'); return; }
+
+  const newId = allReferrals.length > 0 ? Math.max(...allReferrals.map(r => r.referral_id)) + 1 : 1;
+  const date  = document.getElementById('f-date').value || new Date().toISOString().slice(0,10);
+  const appt  = document.getElementById('f-appt').value;
+
+  const ref = {
+    referral_id:       newId,
+    patient_name:      patient,
+    service_name:      document.getElementById('f-service').value,
+    referral_status:   document.getElementById('f-status').value,
+    referral_source:   document.getElementById('f-source').value,
+    referral_open_date:date,
+    referral_reason:   document.getElementById('f-reason').value.trim()
+  };
+  allReferrals.push(ref);
+
+  if (appt !== 'none') {
+    allAppointments.push({
+      appointment_id:     allAppointments.length + 1,
+      referral_id:        newId,
+      patient_name:       patient,
+      service_name:       ref.service_name,
+      appointment_date:   date,
+      appointment_status: appt === 'attended'
     });
+  }
 
-    // Close sidebar when clicking outside
-    document.addEventListener('click', function (e) {
-      const sidebar = document.getElementById('sidebar');
-      const hamburger = document.getElementById('hamburger-btn');
-      if (sidebar.classList.contains('open') &&
-          !sidebar.contains(e.target) &&
-          e.target !== hamburger) {
-        sidebar.classList.remove('open');
-      }
-    });
+  overlay.classList.remove('open');
+  showBanner('success', `✓ Added referral for ${patient} — dashboard updated`);
+  populateServiceFilter();
+  renderDashboard();
+  document.getElementById('f-patient').value = '';
+  document.getElementById('f-reason').value  = '';
+}
 
-    // Show last updated time
-    document.getElementById('last-updated').textContent =
-      'Last updated: ' + new Date().toLocaleString('en-GB');
-  </script>
+// ── FILTERS ───────────────────────────────────────────────────
+function populateServiceFilter() {
+  const sel = document.getElementById('service-filter');
+  const services = [...new Set(allReferrals.map(r => r.service_name).filter(Boolean))].sort();
+  sel.innerHTML = '<option value="all">All services</option>' +
+    services.map(s => `<option>${s}</option>`).join('');
+}
 
+function getFiltered() {
+  const date    = document.getElementById('date-filter').value;
+  const service = document.getElementById('service-filter').value;
+  const status  = document.getElementById('status-filter').value;
+  const cutoff  = date === 'all' ? null : new Date(Date.now() - parseInt(date)*86400000);
+
+  return allReferrals.filter(r => {
+    if (cutoff && new Date(r.referral_open_date) < cutoff) return false;
+    if (service !== 'all' && r.service_name !== service)  return false;
+    if (status  !== 'all' && r.referral_status !== status) return false;
+    return true;
+  });
+}
+
+['date-filter','service-filter','status-filter'].forEach(id => {
+  document.getElementById(id).addEventListener('change', renderDashboard);
+});
+
+// ── RENDER DASHBOARD ──────────────────────────────────────────
+function renderDashboard() {
+  if (allReferrals.length === 0) {
+    showBanner('loading', 'No data loaded yet — click Import JSON to load mock_data.json or use Add Record to enter data manually.');
+    clearKPIs(); return;
+  }
+
+  const refs = getFiltered();
+  hideBanner('loading');
+
+  if (refs.length === 0) { showBanner('empty', null); clearKPIs(); return; }
+  hideBanner('empty');
+
+  // Matching appointments
+  const refIds = new Set(refs.map(r => r.referral_id));
+  const appts  = allAppointments.filter(a => refIds.has(a.referral_id));
+
+  // ── KPIs ──
+  const open       = refs.filter(r => !['Completed','Cancelled'].includes(r.referral_status)).length;
+  const completed  = refs.filter(r => r.referral_status === 'Completed').length;
+  const noShows    = appts.filter(a => a.appointment_status === false).length;
+  const attended   = appts.filter(a => a.appointment_status === true).length;
+
+  // avg days
+  let totalDays = 0, daysCount = 0;
+  appts.forEach(a => {
+    const ref = refs.find(r => r.referral_id === a.referral_id);
+    if (ref && a.appointment_date && ref.referral_open_date) {
+      const diff = (new Date(a.appointment_date) - new Date(ref.referral_open_date)) / 86400000;
+      if (diff >= 0) { totalDays += diff; daysCount++; }
+    }
+  });
+  const avgDays      = daysCount > 0 ? (totalDays / daysCount).toFixed(1) : '--';
+  const activeServs  = new Set(appts.map(a => a.service_name).filter(Boolean)).size;
+  const completionPct = refs.length > 0 ? ((completed / refs.length) * 100).toFixed(1) : 0;
+  const noShowPct     = appts.length > 0 ? ((noShows / appts.length) * 100).toFixed(1) : 0;
+
+  document.getElementById('kpi-total').textContent      = refs.length;
+  document.getElementById('kpi-open').textContent       = open;
+  document.getElementById('kpi-completion').textContent = completionPct + '%';
+  document.getElementById('kpi-noshow').textContent     = noShowPct + '%';
+  document.getElementById('kpi-avgdays').textContent    = avgDays === '--' ? '--' : avgDays + 'd';
+  document.getElementById('kpi-services').textContent   = activeServs || new Set(refs.map(r=>r.service_name).filter(Boolean)).size;
+  document.getElementById('last-updated').textContent   = 'Updated: ' + new Date().toLocaleString('en-GB');
+
+  // ── CHARTS ──
+  // 1. Referrals over time (by month)
+  const byMonth = {};
+  refs.forEach(r => {
+    const m = r.referral_open_date ? r.referral_open_date.slice(0,7) : 'Unknown';
+    byMonth[m] = (byMonth[m] || 0) + 1;
+  });
+  const months = Object.keys(byMonth).sort();
+  renderChart('chart-line','line',
+    months.map(m => { const [y,mo] = m.split('-'); return new Date(y,mo-1).toLocaleString('en-GB',{month:'short',year:'2-digit'}); }),
+    [{ label:'Referrals', data:months.map(m=>byMonth[m]), borderColor:COLOURS[0], backgroundColor:'rgba(0,137,123,0.08)', fill:true, tension:0.4, pointRadius:3 }]
+  );
+
+  // 2. Status donut
+  const statusGroups = {};
+  refs.forEach(r => { statusGroups[r.referral_status] = (statusGroups[r.referral_status]||0)+1; });
+  renderChart('chart-status','doughnut',
+    Object.keys(statusGroups),
+    [{ data:Object.values(statusGroups), backgroundColor:COLOURS }]
+  );
+
+  // 3. By service horizontal bar
+  const svcGroups = {};
+  refs.forEach(r => { if(r.service_name) svcGroups[r.service_name] = (svcGroups[r.service_name]||0)+1; });
+  const svcSorted = Object.entries(svcGroups).sort((a,b)=>b[1]-a[1]);
+  renderChart('chart-service','bar',
+    svcSorted.map(s=>s[0]),
+    [{ label:'Referrals', data:svcSorted.map(s=>s[1]), backgroundColor:COLOURS[0] }],
+    { indexAxis:'y' }
+  );
+
+  // 4. Appointment outcomes donut
+  const outcomes = { 'Attended': attended, 'Did Not Attend': noShows };
+  renderChart('chart-outcomes','doughnut',
+    Object.keys(outcomes),
+    [{ data:Object.values(outcomes), backgroundColor:[COLOURS[0],COLOURS[4]] }]
+  );
+
+  // 5. Sources bar
+  const srcGroups = {};
+  refs.forEach(r => { if(r.referral_source) srcGroups[r.referral_source] = (srcGroups[r.referral_source]||0)+1; });
+  const srcSorted = Object.entries(srcGroups).sort((a,b)=>b[1]-a[1]);
+  renderChart('chart-sources','bar',
+    srcSorted.map(s=>s[0]),
+    [{ label:'Referrals', data:srcSorted.map(s=>s[1]), backgroundColor:COLOURS[1] }]
+  );
+
+  // ── TABLE ──
+  const recent = [...refs].sort((a,b) => new Date(b.referral_open_date)-new Date(a.referral_open_date)).slice(0,15);
+  document.getElementById('table-count').textContent = refs.length + ' records';
+  document.getElementById('table-body').innerHTML = recent.map(r => `
+    <tr>
+      <td style="font-family:'DM Mono',monospace">#${String(r.referral_id).padStart(3,'0')}</td>
+      <td>${r.patient_name || '--'}</td>
+      <td>${r.service_name || '--'}</td>
+      <td><span class="badge badge-${(r.referral_status||'').toLowerCase()}">${r.referral_status || '--'}</span></td>
+      <td>${r.referral_source || '--'}</td>
+      <td style="font-family:'DM Mono',monospace">${r.referral_open_date || '--'}</td>
+    </tr>`).join('');
+}
+
+// ── CHART HELPER ──────────────────────────────────────────────
+function renderChart(id, type, labels, datasets, extra = {}) {
+  if (charts[id]) charts[id].destroy();
+  const ctx = document.getElementById(id).getContext('2d');
+  charts[id] = new Chart(ctx, {
+    type,
+    data: { labels, datasets },
+    options: {
+      responsive:true,
+      plugins: { legend:{ display: type==='doughnut', position:'bottom', labels:{ boxWidth:10, font:{size:10} } } },
+      scales: type === 'doughnut' ? {} : {
+        x: { grid:{ display:false }, ticks:{ font:{size:10} } },
+        y: { grid:{ color:'#f0f4f8' }, ticks:{ font:{size:10} } }
+      },
+      ...extra
+    }
+  });
+}
+
+// ── EXPORT CSV ────────────────────────────────────────────────
+document.getElementById('export-btn').addEventListener('click', () => {
+  const refs = getFiltered();
+  if (!refs.length) { alert('No data to export'); return; }
+  const header = 'Ref ID,Patient,Service,Status,Source,Date Opened,Reason';
+  const rows = refs.map(r => [r.referral_id, r.patient_name, r.service_name, r.referral_status, r.referral_source, r.referral_open_date, r.referral_reason].map(v=>`"${v||''}"`).join(','));
+  const csv  = [header, ...rows].join('\n');
+  const blob = new Blob([csv], { type:'text/csv' });
+  const url  = URL.createObjectURL(blob);
+  const a    = Object.assign(document.createElement('a'), { href:url, download:'health_matters_kpi.csv' });
+  a.click(); URL.revokeObjectURL(url);
+});
+
+// ── BANNERS ───────────────────────────────────────────────────
+function showBanner(type, msg) {
+  ['loading','error','empty','success'].forEach(t => {
+    const el = document.getElementById('banner-'+t);
+    if (t === type) { el.style.display='block'; if (msg) el.innerHTML = msg; }
+    else el.style.display='none';
+  });
+}
+function hideBanner(type) { document.getElementById('banner-'+type).style.display='none'; }
+function clearKPIs() {
+  ['total','open','completion','noshow','avgdays','services'].forEach(k => document.getElementById('kpi-'+k).textContent='--');
+  document.getElementById('table-body').innerHTML='';
+  document.getElementById('table-count').textContent='0 records';
+}
+
+// ── HAMBURGER ─────────────────────────────────────────────────
+document.getElementById('hamburger-btn').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.addEventListener('click', e => {
+  const sb = document.getElementById('sidebar');
+  if (sb.classList.contains('open') && !sb.contains(e.target) && e.target.id !== 'hamburger-btn')
+    sb.classList.remove('open');
+});
+</script>
 </body>
 </html>
