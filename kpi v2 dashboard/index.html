@@ -99,7 +99,7 @@
 
     /* ── CHARTS ── */
     #charts-row-1 { display:grid; grid-template-columns:2fr 1fr; gap:12px; margin-bottom:12px; }
-    #charts-row-2 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
+    #charts-row-2 { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:12px; margin-bottom:20px; }
     .chart-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); padding:14px; box-shadow:var(--shadow-sm); }
     .chart-title { font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:12px; }
 
@@ -274,6 +274,7 @@
       <article class="chart-card"><h3 class="chart-title">Referrals by Service</h3><canvas id="chart-service"></canvas></article>
       <article class="chart-card"><h3 class="chart-title">Appointment Outcomes</h3><canvas id="chart-outcomes"></canvas></article>
       <article class="chart-card"><h3 class="chart-title">Referral Sources</h3><canvas id="chart-sources"></canvas></article>
+      <article class="chart-card"><h3 class="chart-title">Referrals by Gender</h3><canvas id="chart-gender"></canvas></article>
     </section>
 
     <!-- TABLE -->
@@ -380,6 +381,8 @@
 // ── STATE ─────────────────────────────────────────────────────
 let allReferrals    = [];
 let allAppointments = [];
+let allPatients     = [];
+let patientLookup   = {}; // patient_id -> patient object
 let charts          = {};
 
 const COLOURS = ['#00897b','#3b82f6','#f59e0b','#8b5cf6','#ef4444','#22c55e','#0ea5e9','#f97316'];
@@ -466,6 +469,10 @@ function readJsonFile(file) {
       if (!data.referrals) throw new Error('No referrals array found in JSON');
       allReferrals    = data.referrals    || [];
       allAppointments = data.appointments || [];
+      allPatients     = data.patients     || [];
+      // Build lookup map: patient_id -> patient object (task a)
+      patientLookup = {};
+      allPatients.forEach(p => { patientLookup[p.patient_id] = p; });
       overlay.classList.remove('open');
       showBanner('success', `✓ Loaded ${allReferrals.length} referrals and ${allAppointments.length} appointments from ${file.name}`);
       populateServiceFilter();
@@ -632,6 +639,19 @@ function renderDashboard() {
   renderChart('chart-sources','bar',
     srcSorted.map(s=>s[0]),
     [{ label:'Referrals', data:srcSorted.map(s=>s[1]), backgroundColor:COLOURS[1] }]
+  );
+
+  // 6. Referrals by gender — join referral.patient_id → patientLookup (tasks b, c, f)
+  const genderGroups = {};
+  refs.forEach(r => {
+    const patient = patientLookup[r.patient_id];               // task a: use lookup map
+    const gender  = patient ? patient.patient_gender : 'Unknown'; // task f: null/missing fallback
+    genderGroups[gender] = (genderGroups[gender] || 0) + 1;   // task b: count by gender
+  });
+  const genderSorted = Object.entries(genderGroups).sort((a,b)=>b[1]-a[1]);
+  renderChart('chart-gender','bar',                            // task c: render bar chart
+    genderSorted.map(g=>g[0]),
+    [{ label:'Referrals', data:genderSorted.map(g=>g[1]), backgroundColor:COLOURS.slice(0,genderSorted.length) }]
   );
 
   // ── TABLE ──
